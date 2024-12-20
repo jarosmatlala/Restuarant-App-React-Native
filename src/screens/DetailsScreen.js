@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, Text, Image } from 'react-native'; 
 import COLORS from '../consts/colors'; 
-import restaurants from '../consts/restaurants'; 
+import restaurants from '../consts/restuarants'; 
 
 const DetailsScreen = ({ route }) => {
     const { restaurantId } = route.params; 

@@ -11,7 +11,7 @@ const restaurants = [
         name: 'Silver street, Central district',
         location: 'Green street Odi Highway',
         price: 12,
-        image: require('../../assets/images/splash.jpg')
+        image: require('../../assets/images/splash.png')
     },
     {
         id: '3',
