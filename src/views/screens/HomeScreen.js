@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, Text, StyleSheet, View } from 'react-native';
+import { SafeAreaView, Text, StyleSheet, View,TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
 import hotels from '../../consts/hotels';
@@ -7,6 +7,22 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 
 const HomeScreen = ({ navigation }) => {
     const categories = ['All', 'Popular', 'Top Rated', 'Featured', 'Luxury'];
+
+    const CategoryList = () => {
+        return(
+            <View style={style.categoryListContainer}>
+                {categories.map((item,index) => (
+                    <TouchableOpacity key={index} activeOpacity={0.8}>
+                        <View>
+                            <Text>
+                                {item}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                ))}
+                 </View>
+        );
+    };
 
 return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
@@ -32,9 +48,10 @@ return (
                     <Icon name="search" size={30} style={{marginLeft:20}} />
                     <TextInput
                     placeholder="Search"
-                    style={{fontSize:20, paddingLeft:10}}/>
+                    style={{fontSize:20, paddingLeft:8}}/>
                     
                 </View>
+                <CategoryList/>
             </ScrollView>
         </SafeAreaView>
     );
@@ -57,6 +74,14 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
+    categoryListContainer:{
+        flexDirection:'row',
+        justifyContent: 'space-between',
+        marginHorizontal:20,
+        marginTop: 30,
+
+
+    }
 });
 
 export default HomeScreen;
