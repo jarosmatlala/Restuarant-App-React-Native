@@ -13,7 +13,7 @@ const HomeScreen = ({ navigation }) => {
         return (
             <View style={style.categoryListContainer}>
                 {categories.map((item, index) => (
-                    <TouchableOpacity key={index} activeOpacity={0.8}>
+                    <TouchableOpacity key={index} activeOpacity={0.8} onPress={() => setSelectedCategoryIndex(index) }>
                         <View>
                             <Text 
                             style={{...style.categoryListText,
