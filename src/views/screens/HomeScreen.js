@@ -2,8 +2,26 @@ import React from 'react';
 import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Dimensions, Image, FlatList, TextInput, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
-import hotels from '../../consts/hotels';
-const {width} = Dimensions.get('screen');
+
+const hotels = [
+  {
+    id: '1',
+    name: 'Bakubung',
+    location: 'Green street, Central District',
+    price: 120,
+    image: require('../../assets/heart.png'),
+    details: 'Astonishing Restaurant with delicious North West Wild Life Meat',
+  },
+  {
+    id: '2',
+    name: 'Bring Khudu Restaurant',
+    location: 'Yuki Nyanki Street',
+    price: 70,
+    image: require('../../assets/flower.png'), 
+  },
+];
+
+const { width } = Dimensions.get('screen');
 const cardWidth = width / 1.8;
 
 const HomeScreen = ({ navigation }) => {
@@ -20,7 +38,7 @@ const HomeScreen = ({ navigation }) => {
                 {item}
               </Text>
               {selectedCategoryIndex === index && (
-                <View style={{height: 3, width: 30, backgroundColor: COLORS.primary, marginTop: 2}} />
+                <View style={{ height: 3, width: 30, backgroundColor: COLORS.primary, marginTop: 2 }} />
               )}
             </View>
           </TouchableOpacity>
@@ -29,13 +47,15 @@ const HomeScreen = ({ navigation }) => {
     );
   };
 
-  const Card = ({hotel, index}) => {
+  const Card = ({ hotel, index }) => {
     return (
       <View style={style.card}>
-        <Text>{hotel.name}</Text>
-        <Image source={hotel.image} style={{ height: 100, width: 100 }} />
+        <Text style={{ padding: 10, fontWeight: 'bold' }}>{hotel.name}</Text>
+        <Image source={hotel.image} style={{ height: 100, width: 100, marginTop: 10 }} />
+        <Text style={{ padding: 10 }}>{hotel.location}</Text>
+        <Text style={{ padding: 10, fontWeight: 'bold' }}>R{hotel.price}</Text>
       </View>
-)
+    );
   };
 
   return (
@@ -58,24 +78,19 @@ const HomeScreen = ({ navigation }) => {
         <CategoryList />
 
         <View>
-
-
-{hotels.length === 0 ? (
-    <Text>No hotels available</Text>
-) : (
-
-    <FlatList
-        horizontal
-        data={hotels}
-        contentContainerStyle={{ paddingVertical: 30, paddingLeft: 20 }}
-        showsHorizontalScrollIndicator={false}
-        renderItem={({ item, index }) => <Card hotel={item} index={index} />}
-        keyExtractor={(item) => item.id}
-    />
-  )}
-</View>
-
-
+          {hotels.length === 0 ? (
+            <Text>No hotels available</Text>
+          ) : (
+            <FlatList
+              horizontal
+              data={hotels}
+              contentContainerStyle={{ paddingVertical: 30, paddingLeft: 20 }}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item, index }) => <Card hotel={item} index={index} />}
+              keyExtractor={(item) => item.id}
+            />
+          )}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -114,7 +129,7 @@ const style = StyleSheet.create({
     elevation: 15,
     marginRight: 20,
     borderRadius: 15,
-    backgroundColor: COLORS.orange,
+    backgroundColor: COLORS.light,
   },
 });
 
