@@ -2,24 +2,8 @@ import React from 'react';
 import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Dimensions, Image, FlatList, TextInput, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
+import hotels from '../../consts/hotels'; 
 
-const hotels = [
-  {
-    id: '1',
-    name: 'Italian Restuarant',
-    location: '1st street, Central',
-    price: 120,
-    image: require('../../assets/italian.jpg'),
-    details: 'Astonishing Restaurant with delicious North West Wild Life Meat',
-  },
-  {
-    id: '2',
-    name: 'Kitchen Cafe & Resto',
-    location: 'Nyanki Street',
-    price: 70,
-    image: require('../../assets/cafe logo.jpg'),
-  },
-];
 
 const { width } = Dimensions.get('screen');
 const cardWidth = width / 1.8;
