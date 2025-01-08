@@ -6,18 +6,18 @@ import COLORS from '../../consts/colors';
 const hotels = [
   {
     id: '1',
-    name: 'Bakubung',
-    location: 'Green street, Central District',
+    name: 'Italian Restuarant',
+    location: '1st street, Central',
     price: 120,
-    image: require('../../assets/heart.png'),
+    image: require('../../assets/italian.jpg'),
     details: 'Astonishing Restaurant with delicious North West Wild Life Meat',
   },
   {
     id: '2',
-    name: 'Bring Khudu Restaurant',
-    location: 'Yuki Nyanki Street',
+    name: 'Kitchen Cafe & Resto',
+    location: 'Nyanki Street',
     price: 70,
-    image: require('../../assets/flower.png'), 
+    image: require('../../assets/cafe logo.jpg'),
   },
 ];
 
@@ -34,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
         {categories.map((item, index) => (
           <TouchableOpacity key={index} activeOpacity={0.8} onPress={() => setSelectedCategoryIndex(index)}>
             <View>
-              <Text style={{...style.categoryListText, color: selectedCategoryIndex === index ? COLORS.primary : COLORS.grey}}>
+              <Text style={{ ...style.categoryListText, color: selectedCategoryIndex === index ? COLORS.primary : COLORS.grey }}>
                 {item}
               </Text>
               {selectedCategoryIndex === index && (
@@ -49,11 +49,41 @@ const HomeScreen = ({ navigation }) => {
 
   const Card = ({ hotel, index }) => {
     return (
-      <View style={style.card}>
-        <Text style={{ padding: 10, fontWeight: 'bold' }}>{hotel.name}</Text>
-        <Image source={hotel.image} style={{ height: 100, width: 100, marginTop: 10 }} />
-        <Text style={{ padding: 10 }}>{hotel.location}</Text>
-        <Text style={{ padding: 10, fontWeight: 'bold' }}>R{hotel.price}</Text>
+      <View style={{...style.card}}>
+      <View style={{...style.cardOverLay,opacity: 0}}/>
+
+        <View style={style.priceTag}>
+          <Text style={{ color: COLORS.white, fontSize: 20, fontWeight: 'bold' }}>
+            R {hotel.price}
+          </Text>
+        </View>
+        <Image source={hotel.image} style={style.cardImage} />
+
+        <View style={style.cardDetails}>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+            <View>
+              <Text style={{ fontSize: 17, fontWeight: 'bold' }}>
+                {hotel.name}
+              </Text>
+              <Text style={{ fontSize: 12, color: COLORS.grey }}>{hotel.location}</Text>
+
+            </View>
+            <Icon name="bookmark-border" size={26} color={COLORS.primary} />
+            </View>
+          <View style={{
+            flexDirection: "row",
+            justifyContent: 'space-between',
+            marginTop: 10,
+
+          }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Icon name="star" size={15} color={COLORS.orange} />
+            </View>
+            <Text style={{ fontSize: 10, color: COLORS.grey }}>365 reviews</Text>
+          </View>
+        </View>
       </View>
     );
   };
@@ -131,6 +161,44 @@ const style = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: COLORS.light,
   },
+  cardImage: {
+    height: 200,
+    width: '100%',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  priceTag: {
+    height: 60,
+    width: 80,
+    backgroundColor: COLORS.primary,
+    position: 'absolute',
+    zIndex: 1,
+    right: 0,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardDetails: {
+    height: 100,
+    borderRadius: 15,
+    backgroundColor: COLORS.white,
+    position: 'absolute',
+    bottom: 0,
+    padding: 20,
+    width: '100%'
+  },
+  cardOverLay:{
+    height:280,
+    backgroundColor: COLORS.white,
+    position:'absolute',
+    zIndex:100,
+    width: cardWidth,
+    borderRadius:15,
+  }
+
+
 });
 
 export default HomeScreen;
+
