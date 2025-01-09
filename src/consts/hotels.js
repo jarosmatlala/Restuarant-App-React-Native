@@ -14,6 +14,15 @@ const hotels = [
       price: 70,
       image: require('../assets/cafe logo.jpg'),
     },
+    {
+        id: '3',
+        name: 'Italian Restuarant',
+        location: '1st street, Central',
+        price: 120,
+        image: require('../assets/italian.jpg'),
+        details: 'Astonishing Restaurant with delicious North West Wild Life Meat',
+      },
   ];
 
   export default hotels;
+  

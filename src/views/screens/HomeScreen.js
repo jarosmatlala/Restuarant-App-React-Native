@@ -1,8 +1,8 @@
 import React from 'react';
-import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Dimensions, Image, FlatList, TextInput, ScrollView } from 'react-native';
+import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Dimensions, Image, FlatList, TextInput, ScrollView, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
-import hotels from '../../consts/hotels'; 
+import hotels from '../../consts/hotels';
 
 
 const { width } = Dimensions.get('screen');
@@ -11,6 +11,7 @@ const cardWidth = width / 1.8;
 const HomeScreen = ({ navigation }) => {
   const categories = ['All', 'Popular', 'Top Rated', 'Featured', 'Luxury'];
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
+  const scrollX = React.useRef(new Animated.Value(0)).current;
 
   const CategoryList = () => {
     return (
@@ -32,9 +33,23 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const Card = ({ hotel, index }) => {
+    const inputRange = [
+      (index - 1) * cardWidth,
+      index * cardWidth,
+      (index + 1) * cardWidth,
+    ];
+    const opacity = scrollX.interpolate({
+      inputRange,
+      outputRange: [0.7, 0, 0.7],
+    });
+    const scale = scrollX.interpolate({
+      inputRange,
+      outputRange: [0.8, 1, 0.8],
+    });
+
     return (
-      <View style={{...style.card}}>
-      <View style={{...style.cardOverLay,opacity: 0}}/>
+      <Animated.View style={{ ...style.card, transform: [{ scale }] }}>
+        <Animated.View style={{ ...style.cardOverLay, opacity }} />
 
         <View style={style.priceTag}>
           <Text style={{ color: COLORS.white, fontSize: 20, fontWeight: 'bold' }}>
@@ -55,7 +70,7 @@ const HomeScreen = ({ navigation }) => {
 
             </View>
             <Icon name="bookmark-border" size={26} color={COLORS.primary} />
-            </View>
+          </View>
           <View style={{
             flexDirection: "row",
             justifyContent: 'space-between',
@@ -68,8 +83,12 @@ const HomeScreen = ({ navigation }) => {
             <Text style={{ fontSize: 10, color: COLORS.grey }}>365 reviews</Text>
           </View>
         </View>
-      </View>
+      </Animated.View>
     );
+  };
+
+  const TopHotelCard = ({ hotel }) => {
+    return <View style={style.TopHotelCard}></View>;
   };
 
   return (
@@ -95,16 +114,41 @@ const HomeScreen = ({ navigation }) => {
           {hotels.length === 0 ? (
             <Text>No hotels available</Text>
           ) : (
-            <FlatList
+            <Animated.FlatList
+              onScroll={Animated.event([{ nativeEvent: { contentOffse: { x: scrollX } } }],
+                { useNativeDriver: true },
+              )}
               horizontal
               data={hotels}
-              contentContainerStyle={{ paddingVertical: 30, paddingLeft: 20 }}
+              contentContainerStyle={{ paddingVertical: 30, paddingLeft: 20, paddingRight: cardWidth / 2 - 40 }}
               showsHorizontalScrollIndicator={false}
               renderItem={({ item, index }) => <Card hotel={item} index={index} />}
               keyExtractor={(item) => item.id}
+              snapToInterval={cardWidth}
             />
           )}
         </View>
+        <View style={{
+          flexDirection: "row",
+          justifyContent: 'space-between',
+          marginHorizontal: 20,
+
+        }}>
+          <Text style={{ color: COLORS.grey, fontWeight: 'bold' }}>
+            Top Hotels
+          </Text>
+          <Text style={{ color: COLORS.grey }}> Show all</Text>
+        </View>
+        <FlatList horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingLeft: 20,
+            marginTop: 20,
+            paddingBottom: 30
+          }}
+          renderItem={({ item }) => <TopHotelCard hotel={item} />}
+        />
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -172,13 +216,21 @@ const style = StyleSheet.create({
     padding: 20,
     width: '100%'
   },
-  cardOverLay:{
-    height:280,
+  cardOverLay: {
+    height: 280,
     backgroundColor: COLORS.white,
-    position:'absolute',
-    zIndex:100,
+    position: 'absolute',
+    zIndex: 100,
     width: cardWidth,
-    borderRadius:15,
+    borderRadius: 15,
+  },
+  TopHotelCard: {
+    height: 120,
+    width: 120,
+    backgroundColor: COLORS.white,
+    elevation: 15,
+    marginHorizontal: 10,
+    borderRadius:10,
   }
 
 
