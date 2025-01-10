@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Dimensions, Image, FlatList, TextInput, ScrollView, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
-import hotels from '../../consts/hotels';
-
+import { getRestaurants } from '../../services/api';
 
 const { width } = Dimensions.get('screen');
 const cardWidth = width / 1.8;
@@ -12,7 +11,16 @@ const HomeScreen = ({ navigation }) => {
   const categories = ['All', 'Popular', 'Top Rated', 'Featured', 'Luxury'];
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
   const [activeCardIndex, setActiveCardIndex] = React.useState(0);
+  const [restaurants, setRestaurants] = useState([]);
   const scrollX = React.useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      const data = await getRestaurants();
+      setRestaurants(data);
+    };
+    fetchRestaurants();
+  }, []);
 
   const CategoryList = ({ navigation }) => {
     return (
@@ -33,7 +41,7 @@ const HomeScreen = ({ navigation }) => {
     );
   };
 
-  const Card = ({ hotel, index }) => {
+  const Card = ({ restaurant, index }) => {
     const inputRange = [
       (index - 1) * cardWidth,
       index * cardWidth,
@@ -52,28 +60,24 @@ const HomeScreen = ({ navigation }) => {
       <TouchableOpacity
         disabled={activeCardIndex != index}
         activeOpacity={1}
-        onPress={() => navigation.navigate('DetailsScreen', hotel)} >
-
+        onPress={() => navigation.navigate('DetailsScreen', { restaurant: restaurant })}>
         <Animated.View style={{ ...style.card, transform: [{ scale }] }}>
           <Animated.View style={{ ...style.cardOverLay, opacity }} />
-
           <View style={style.priceTag}>
             <Text style={{ color: COLORS.white, fontSize: 20, fontWeight: 'bold' }}>
-              R {hotel.price}
+              R {restaurant.price || '00.00'}
             </Text>
           </View>
-          <Image source={hotel.image} style={style.cardImage} />
-
+          <Image source={restaurant.image || require('../../assets/placeholder.jpg')} style={style.cardImage} />
           <View style={style.cardDetails}>
-
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
               <View>
                 <Text style={{ fontSize: 17, fontWeight: 'bold' }}>
-                  {hotel.name}
+                  {restaurant.name || 'Restaurant Name'}
                 </Text>
-                <Text style={{ fontSize: 12, color: COLORS.grey }}>{hotel.location}</Text>
-
+                <Text style={{ fontSize: 12, color: COLORS.grey }}>
+                  {restaurant.location || 'Restaurant Location'}
+                </Text>
               </View>
               <Icon name="bookmark-border" size={26} color={COLORS.primary} />
             </View>
@@ -81,39 +85,36 @@ const HomeScreen = ({ navigation }) => {
               flexDirection: "row",
               justifyContent: 'space-between',
               marginTop: 10,
-
             }}>
               <View style={{ flexDirection: 'row' }}>
                 <Icon name="star" size={15} color={COLORS.orange} />
                 <Icon name="star" size={15} color={COLORS.orange} />
-
               </View>
               <Text style={{ fontSize: 10, color: COLORS.grey }}>365 reviews</Text>
             </View>
           </View>
         </Animated.View>
-
       </TouchableOpacity>
     );
   };
 
-  const TopHotelCard = ({ hotel }) => {
-    return(
-     <View style={style.topHotelCard}>
-      <View style={{ position: 'absolute', top: 5, right: 5, zIndex: 1, flexDirection: 'row' }}>
-        <Icon name="star" size={15} color={COLORS.orange} />
-        <Text style={{ color: COLORS.primary, fontWeight: 'bold', fontSize: 15 }}>
-          5.0
-        </Text>
+  const TopRestaurantCard = ({ restaurant }) => {
+    return (
+      <View style={style.topHotelCard}>
+        <View style={{ position: 'absolute', top: 5, right: 5, zIndex: 1, flexDirection: 'row' }}>
+          <Icon name="star" size={15} color={COLORS.orange} />
+          <Text style={{ color: COLORS.primary, fontWeight: 'bold', fontSize: 15 }}>
+            5.0
+          </Text>
+        </View>
+        <Image style={style.topHotelCardImage} source={restaurant.image || require('../../assets/placeholder.jpg')} />
+        <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
+          <Text style={{ fontSize: 10, fontWeight: 'bold' }}>{restaurant.name || 'Restaurant Name'} </Text>
+          <Text style={{ fontSize: 7, fontWeight: 'bold', color: COLORS.grey }}>
+            {restaurant.location || 'Restaurant Location'}
+          </Text>
+        </View>
       </View>
-      <Image style={style.topHotelCardImage} source={hotel.image} />
-      <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
-        <Text style={{ fontSize: 10, fontWeight: 'bold' }}>{hotel.name} </Text>
-        <Text style={{ fontSize: 7, fontWeight: 'bold', color: COLORS.grey }}>
-          {hotel.name}
-        </Text>
-      </View>
-    </View>
     );
   };
 
@@ -135,12 +136,10 @@ const HomeScreen = ({ navigation }) => {
           <TextInput placeholder="Search" style={{ fontSize: 20, paddingLeft: 8 }} />
         </View>
         <CategoryList />
-
         <View>
-          {hotels.length === 0 ? (
-            <Text>No hotels available</Text>
+          {restaurants.length === 0 ? (
+            <Text>No restaurants available</Text>
           ) : (
-
             <Animated.FlatList
               onMomentumScrollEnd={(e) => {
                 setActiveCardIndex(
@@ -152,11 +151,11 @@ const HomeScreen = ({ navigation }) => {
                 { useNativeDriver: true },
               )}
               horizontal
-              data={hotels}
+              data={restaurants}
               contentContainerStyle={{ paddingVertical: 30, paddingLeft: 20, paddingRight: cardWidth / 2 - 40 }}
               showsHorizontalScrollIndicator={false}
-              renderItem={({ item, index }) => <Card hotel={item} index={index} />}
-              keyExtractor={(item) => item.id}
+              renderItem={({ item, index }) => <Card restaurant={item} index={index} />}
+              keyExtractor={(item) => item._id}
               snapToInterval={cardWidth}
             />
           )}
@@ -165,7 +164,6 @@ const HomeScreen = ({ navigation }) => {
           flexDirection: "row",
           justifyContent: 'space-between',
           marginHorizontal: 20,
-
         }}>
           <Text style={{ color: COLORS.grey, fontWeight: 'bold' }}>
             Top Restaurants
@@ -173,7 +171,7 @@ const HomeScreen = ({ navigation }) => {
           <Text style={{ color: COLORS.grey }}> Show all</Text>
         </View>
         <FlatList
-          data={hotels}
+          data={restaurants}
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
@@ -181,9 +179,8 @@ const HomeScreen = ({ navigation }) => {
             marginTop: 20,
             paddingBottom: 30,
           }}
-          renderItem={({ item }) => <TopHotelCard hotel={item} />}
+          renderItem={({ item }) => <TopRestaurantCard restaurant={item} />}
         />
-
       </ScrollView>
     </SafeAreaView>
   );
@@ -267,16 +264,12 @@ const style = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 10,
   },
-  topHotelCardImage:{
+  topHotelCardImage: {
     height:88,
     width: '100%',
     borderTopRightRadius:10,
     borderTopLeftRadius:10,
-
   }
-
-
 });
 
 export default HomeScreen;
-
