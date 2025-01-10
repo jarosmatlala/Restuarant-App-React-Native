@@ -7,7 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 
 const DetailsScreen = ({navigation,route}) => {
     const item = route.params;
-    console.log(item);
+    // console.log(item);
     return(
         <ScrollView 
         showsVerticalScrollIndicator={false}
@@ -40,6 +40,28 @@ const DetailsScreen = ({navigation,route}) => {
          <View>
             <View style={style.iconContainer}>
                 <Icon name="place" color={COLORS.white} size={28}/>
+            </View>
+            <View style={{marginTop:20, paddingHorizontal:20}}>
+                <Text style={{fontSize:20,fontWeight:'bold'}}>{item.name}</Text>
+                <Text style={{fontSize:20,fontWeight:'400',color:COLORS.grey,marginTop:5}}>{item.location}</Text>
+                <View style={{marginTop:10,flexDirection:'row',justifyContent:'space-between'}}>
+                    <View style={{flexDirection:'row'}}>
+                        <View style={{flexDirection:'row'}}>
+                            <Icon name="star" size={20} color={COLORS.orange} />
+                            <Icon name="star" size={20} color={COLORS.grey} />
+                        </View>
+                        <Text style={{fontWeight:'bold',fontSize:18,marginLeft:5}}>
+                            5.0
+                        </Text>
+                        <View>
+                            <Text style={{fontSize:18,color:COLORS.grey}}>365 reviews</Text>
+                        </View>
+                        <View style={{marginTop:20}}>
+                        <Text style={{lineHeight}}>{item.details}</Text>
+                        </View>
+                    </View>
+                </View>
+
             </View>
          </View>
         </ScrollView>
