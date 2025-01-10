@@ -53,15 +53,53 @@ const DetailsScreen = ({navigation,route}) => {
                         <Text style={{fontWeight:'bold',fontSize:18,marginLeft:5}}>
                             5.0
                         </Text>
+
                         <View>
-                            <Text style={{fontSize:18,color:COLORS.grey}}>365 reviews</Text>
+                            <Text style={{fontSize:18,color:COLORS.grey,Right:15}}>365 reviews</Text>
                         </View>
+
                         <View style={{marginTop:20}}>
-                        <Text style={{lineHeight}}>{item.details}</Text>
+                        <Text style={{lineHeight:20,color:COLORS.grey}}>{item.details}</Text>
                         </View>
                     </View>
                 </View>
 
+            </View>
+            <View style={{
+                marginTop:20,
+                flexDirection:'row',
+                justifyContent:'space-between',
+                paddingLeft:20,
+                alignItems:'center',
+            }} >
+                <Text style={{fontSize:20,fontWeight:'bold'}}>
+                    Reservation Fee
+                </Text>
+                <View style={style.priceTag}>
+                <Text style={{
+                    fontSize:16,
+                    fontWeight:'bold',
+                    color:COLORS.white,
+                    marginLeft:5,
+                }}>
+                R{item.price}
+                </Text>
+
+                <Text style={{
+                    fontSize:12,
+                    fontWeight:'bold',
+                    color:COLORS.grey,
+                    marginLeft:5,
+                }}>
+                + Welcome Drink
+                </Text>
+                </View>
+            </View>
+            <View style={style.btn}>
+                
+            <Text style={{color:COLORS.white,fontSize:18,fontWeight:'bold'}}>
+                Book Now
+            </Text>
             </View>
          </View>
         </ScrollView>
@@ -69,6 +107,27 @@ const DetailsScreen = ({navigation,route}) => {
 };
 
 const style = StyleSheet.create({
+    btn:{
+    height:55,
+    justifyContent:'center',
+    alignItems:'center',
+    marginTop:40,
+    backgroundColor:COLORS.primary,
+    marginHorizontal:20,
+    borderRadius:10,
+
+    },
+    priceTag:{
+    height:40,
+    alignItems:'center',
+    marginLeft:40,
+    paddingLeft:20,
+    flex:1,
+    backgroundColor:COLORS.secondary,
+    borderTopLeftRadius:20,
+    borderBottomLeftRadius:20,
+    flexDirection:'row',
+    },
     iconContainer:{
         position:'absolute',
         height:60,

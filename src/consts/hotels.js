@@ -13,6 +13,8 @@ const hotels = [
       location: 'Nyanki Street',
       price: 70,
       image: require('../assets/cafe logo.jpg'),
+      details: 'Astonishing Restaurant with delicious North West Wild Life Meat',
+
     },
     {
         id: '3',
