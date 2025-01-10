@@ -38,7 +38,9 @@ const DetailsScreen = ({navigation,route}) => {
         </View>
          </ImageBackground>
          <View>
-            <View style={style.iconContainer}></View>
+            <View style={style.iconContainer}>
+                <Icon name="place" color={COLORS.white} size={28}/>
+            </View>
          </View>
         </ScrollView>
     );
