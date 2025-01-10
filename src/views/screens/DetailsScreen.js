@@ -22,13 +22,40 @@ const DetailsScreen = ({navigation,route}) => {
         />
         <ImageBackground
          style={style.headerImage} source={item.image}>
-        
+        <View style={style.header}>
+            <Icon 
+            name="arrow-back-ios" 
+            size={28}
+            color={COLORS.white}
+            onPress={navigation.goBack}
+            />
+            <Icon 
+            name="bookmark-border" 
+            size={28}
+            color={COLORS.white}
+            onPress={navigation.goBack}
+            />
+        </View>
          </ImageBackground>
+         <View>
+            <View style={style.iconContainer}></View>
+         </View>
         </ScrollView>
     );
 };
 
 const style = StyleSheet.create({
+    iconContainer:{
+        position:'absolute',
+        height:60,
+        width:60,
+        backgroundColor:COLORS.primary,
+        top:-30,
+        right:20,
+        borderRadius:30,
+        justifyContent:'center',
+        alignItems:'center',
+    },
     headerImage:{
         height:400,
         borderBottomRightRadius: 40,
