@@ -79,7 +79,7 @@ const DetailsScreen = ({navigation,route}) => {
                 <Text style={{
                     fontSize:16,
                     fontWeight:'bold',
-                    color:COLORS.white,
+                    color:COLORS.orange,
                     marginLeft:5,
                 }}>
                 R{item.price}
@@ -96,7 +96,7 @@ const DetailsScreen = ({navigation,route}) => {
                 </View>
             </View>
             <View style={style.btn}>
-                
+
             <Text style={{color:COLORS.white,fontSize:18,fontWeight:'bold'}}>
                 Book Now
             </Text>
