@@ -85,6 +85,8 @@ const HomeScreen = ({ navigation }) => {
             }}>
               <View style={{ flexDirection: 'row' }}>
                 <Icon name="star" size={15} color={COLORS.orange} />
+                <Icon name="star" size={15} color={COLORS.orange} />
+
               </View>
               <Text style={{ fontSize: 10, color: COLORS.grey }}>365 reviews</Text>
             </View>
