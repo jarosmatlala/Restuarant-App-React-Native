@@ -12,6 +12,9 @@ const AdminDashboard = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ManageContent')}>
         <Text style={styles.buttonText}>Manage Content</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ManageReservation')}>
+        <Text style={styles.buttonText}>Manage Content</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
