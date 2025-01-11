@@ -9,6 +9,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,Navigator } from 'react-native';
 import LoginScreen from './src/views/screens/LoginScreen';
 import RegisterScreen from './src/views/screens/RegisterScreen';
+import AdminLoginScreen from './src/views/screens/AdminLoginScreen';
+import AdminDashboard from './src/views/screens/AdminDashboard';
+import ManageUsers from './src/views/screens/ManageUsers';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +25,9 @@ return (
     <Stack.Screen name="LoginScreen" component ={LoginScreen} />
     <Stack.Screen name="HomeScreen" component ={HomeScreen} />
     <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
+    <Stack.Screen name="AdminLoginScreen" component={AdminLoginScreen} />
+        <Stack.Screen name="AdminDashboard" component={AdminDashboard} />
+        <Stack.Screen name="ManageUsers" component={ManageUsers} />
     </Stack.Navigator>  
   
 </NavigationContainer>

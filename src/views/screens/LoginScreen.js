@@ -52,6 +52,9 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
         <Text style={styles.switchToRegister}>Don't have an account? Register</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('AdminLoginScreen')}>
+        <Text style={styles.switchToRegister}>Login as Admin</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
