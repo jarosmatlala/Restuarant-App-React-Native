@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const API_URL = 'https://restuarant-app-react-native-backend.onrender.com';
-const API_URL_RESTAURANTS = 'https://restuarant-app-react-native-backend.onrender.com/api/restaurants';
+const API_URL_RESTAURANTS = 'https://restuarant-app-react-native-backend.onrender.com/api/';
 
 const handleResponse = async (response) => {
   if (!response.ok) {
@@ -50,7 +50,7 @@ export const createRestaurant = async (restaurantData) => {
 
 export const registerUser = async (userData) => {
   try {
-    const response = await fetch(`${API_URL}/`, {
+    const response = await fetch(`${API_URL}/api/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ export const deleteRestaurant = async (restaurantId) => {
 
 export const loginUser = async (userData) => {
   try {
-    const response = await fetch(`${API_URL}/login`, {
+    const response = await fetch(`${API_URL}/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
