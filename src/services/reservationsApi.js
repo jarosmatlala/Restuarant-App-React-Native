@@ -6,6 +6,7 @@ const API_URL_RESERVATIONS = 'https://restuarant-app-react-native-backend.onrend
 const handleResponse = async (response) => {
   if (!response.ok) {
     const error = await response.json();
+    console.error('API Error:', error);
     throw new Error(error.message || 'Request failed');
   }
   return response.json();
@@ -34,6 +35,8 @@ export const getReservationsByFilter = async (filter = {}) => {
 
 export const createReservation = async (reservationData) => {
   try {
+    console.log('Creating reservation with data:', reservationData); 
+
     const response = await fetch(API_URL_RESERVATIONS, {
       method: 'POST',
       headers: {
@@ -41,7 +44,11 @@ export const createReservation = async (reservationData) => {
       },
       body: JSON.stringify(reservationData),
     });
-    return await handleResponse(response);
+
+    const result = await handleResponse(response);
+    console.log('Reservation created successfully:', result); 
+    return result;
+
   } catch (error) {
     console.error("Error creating reservation:", error);
     throw error;

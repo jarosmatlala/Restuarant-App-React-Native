@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, FlatList, TextInput, ScrollView, ActivityIndicator } from 'react-native';
+import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, FlatList, TextInput, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
 import { getReservations, createReservation, updateReservation, deleteReservation } from '../../services/reservationsApi';
@@ -85,44 +85,42 @@ const AdminScreen = ({ navigation }) => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Admin Panel</Text>
       </View>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.createReservationForm}>
-          <TextInput
-            placeholder="Name"
-            value={newReservation.name}
-            onChangeText={(text) => setNewReservation({ ...newReservation, name: text })}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Date (YYYY-MM-DD)"
-            value={newReservation.date}
-            onChangeText={(text) => setNewReservation({ ...newReservation, date: text })}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Time (HH:MM)"
-            value={newReservation.time}
-            onChangeText={(text) => setNewReservation({ ...newReservation, time: text })}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Party Size"
-            value={newReservation.partySize}
-            onChangeText={(text) => setNewReservation({ ...newReservation, partySize: text })}
-            style={styles.input}
-          />
-          <TouchableOpacity onPress={handleCreateReservation} disabled={isCreating} style={styles.createButton}>
-            <Text style={styles.createButtonText}>{isCreating ? 'Creating...' : 'Create Reservation'}</Text>
-          </TouchableOpacity>
-        </View>
-
-        <Text style={styles.reservationsTitle}>Existing Reservations</Text>
-        <FlatList
-          data={reservations}
-          renderItem={({ item }) => <ReservationCard reservation={item} />}
-          keyExtractor={(item) => item._id}
+      <View style={styles.createReservationForm}>
+        <TextInput
+          placeholder="Name"
+          value={newReservation.name}
+          onChangeText={(text) => setNewReservation({ ...newReservation, name: text })}
+          style={styles.input}
         />
-      </ScrollView>
+        <TextInput
+          placeholder="Date (YYYY-MM-DD)"
+          value={newReservation.date}
+          onChangeText={(text) => setNewReservation({ ...newReservation, date: text })}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="Time (HH:MM)"
+          value={newReservation.time}
+          onChangeText={(text) => setNewReservation({ ...newReservation, time: text })}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="Party Size"
+          value={newReservation.partySize}
+          onChangeText={(text) => setNewReservation({ ...newReservation, partySize: text })}
+          style={styles.input}
+        />
+        <TouchableOpacity onPress={handleCreateReservation} disabled={isCreating} style={styles.createButton}>
+          <Text style={styles.createButtonText}>{isCreating ? 'Creating...' : 'Create Reservation'}</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Text style={styles.reservationsTitle}>Existing Reservations</Text>
+      <FlatList
+        data={reservations}
+        renderItem={({ item }) => <ReservationCard reservation={item} />}
+        keyExtractor={(item) => item._id}
+      />
     </SafeAreaView>
   );
 };
@@ -139,9 +137,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: COLORS.white,
-  },
-  scrollContainer: {
-    padding: 20,
   },
   createReservationForm: {
     marginBottom: 30,
