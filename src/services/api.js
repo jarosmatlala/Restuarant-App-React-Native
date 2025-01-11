@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_URL = 'http://localhost:5000/api/user';
-const API_URL_RESTAURANTS = 'http://localhost:5000/api/restaurants';
+const API_URL = 'https://restuarant-app-react-native-backend.onrender.com';
+const API_URL_RESTAURANTS = 'https://restuarant-app-react-native-backend.onrender.com/api/restaurants';
 
 const handleResponse = async (response) => {
   if (!response.ok) {
@@ -17,7 +17,7 @@ export const getRestaurants = async () => {
     return await handleResponse(response);
   } catch (error) {
     console.error("Error fetching restaurants:", error);
-    throw error;
+    throw new Error('Unable to load restaurant data. Please try again later.');
   }
 };
 

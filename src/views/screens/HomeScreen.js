@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Dimensions, Image, FlatList, TextInput, ScrollView, Animated } from 'react-native';
+import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Dimensions, Image, FlatList, TextInput, ScrollView, Animated ,ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
 import { getRestaurants } from '../../services/api';
@@ -13,14 +13,27 @@ const HomeScreen = ({ navigation }) => {
   const [activeCardIndex, setActiveCardIndex] = React.useState(0);
   const [restaurants, setRestaurants] = useState([]);
   const scrollX = React.useRef(new Animated.Value(0)).current;
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     const fetchRestaurants = async () => {
-      const data = await getRestaurants();
-      setRestaurants(data);
+      setIsLoading(true);
+      try {
+        const data = await getRestaurants();
+        setRestaurants(data);
+      } catch (error) {
+        console.error('Error fetching restaurants:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchRestaurants();
   }, []);
+  
+  if (isLoading) {
+    return <ActivityIndicator size="large" color={COLORS.primary} />;
+  }
 
   const CategoryList = ({ navigation }) => {
     return (
