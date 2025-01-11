@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const API_URL = 'https://restuarant-app-react-native-backend.onrender.com';
-const API_URL_RESTAURANTS = 'https://restuarant-app-react-native-backend.onrender.com/api/';
+const API_URL_RESTAURANTS = 'https://restuarant-app-react-native-backend.onrender.com/api/restaurants';
 
 const handleResponse = async (response) => {
   if (!response.ok) {
