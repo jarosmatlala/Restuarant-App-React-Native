@@ -14,9 +14,10 @@ const LoginScreen = ({ navigation }) => {
     try {
       const userData = { email, password };
       const response = await loginUser(userData);
+  
       if (response.token) {
         Alert.alert('Success', 'Login successful');
-        navigation.navigate('HomeScreen');
+        navigation.navigate('UserProfileScreen', { token: response.token });
       }
     } catch (error) {
       Alert.alert('Error', 'Login failed');
@@ -24,6 +25,7 @@ const LoginScreen = ({ navigation }) => {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <SafeAreaView style={styles.container}>

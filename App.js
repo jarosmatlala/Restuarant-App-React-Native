@@ -18,6 +18,7 @@ import ManageContent from './src/views/screens/ManageContent';
 import CartScreen from './src/views/screens/CartScreen';
 import CartReducer from './src/redux/CartReducer';
 import store from './src/redux/store';  
+import UserProfileScreen from './src/views/screens/UserProfile';
 
 const Stack = createStackNavigator();
 
@@ -30,18 +31,18 @@ return (
 <NavigationContainer>
   <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
   <Stack.Navigator screenOptions={{headerShown:false}}>
-    <Stack.Screen name="RegisterScreen" component ={RegisterScreen} />
-    <Stack.Screen name="LoginScreen" component ={LoginScreen} />
-    <Stack.Screen name="HomeScreen" component ={HomeScreen} />
-    <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
-    <Stack.Screen name="AdminLoginScreen" component={AdminLoginScreen} />
-   <Stack.Screen name="AdminDashboard" component={AdminDashboard} />
+        <Stack.Screen name="RegisterScreen" component ={RegisterScreen} />
+        <Stack.Screen name="LoginScreen" component ={LoginScreen} />
+        <Stack.Screen name="HomeScreen" component ={HomeScreen} />
+        <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
+        <Stack.Screen name="AdminLoginScreen" component={AdminLoginScreen} />
+        <Stack.Screen name="AdminDashboard" component={AdminDashboard} />
         <Stack.Screen name="ManageUsers" component={ManageUsers} />
         <Stack.Screen name="ManageReservation" component={AdminScreen} />
         <Stack.Screen name="ManageContent" component={ManageContent} /> 
         <Stack.Screen name="CartScreen" component={CartScreen} /> 
         <Stack.Screen name="CartReducer" component={CartReducer} /> 
-
+        <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} /> 
     </Stack.Navigator>  
   
 </NavigationContainer>
