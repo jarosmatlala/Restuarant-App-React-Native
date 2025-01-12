@@ -6,9 +6,10 @@ import { getReservations, createReservation, updateReservation, deleteReservatio
 
 const AdminScreen = ({ navigation }) => {
   const [reservations, setReservations] = useState([]);
-  const [newReservation, setNewReservation] = useState({ name: '', date: '', time: '', partySize: '' });
+  const [newReservation, setNewReservation] = useState({ userId: '67824b88a2784b270bc142ca', restaurantId: '677e48e8a327c66ef69e3f9e', name: '', date: '', time: '', partySize: '' });
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [editingReservationId, setEditingReservationId] = useState(null);
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -25,27 +26,33 @@ const AdminScreen = ({ navigation }) => {
     fetchReservations();
   }, []);
 
-  const handleCreateReservation = async () => {
+  const handleCreateOrUpdateReservation = async () => {
     setIsCreating(true);
     try {
-      const data = await createReservation(newReservation);
-      setReservations([...reservations, data]);
+      if (editingReservationId) {
+        const updatedReservation = await updateReservation(editingReservationId, newReservation);
+        setReservations(reservations.map(reservation => reservation._id === editingReservationId ? updatedReservation : reservation));
+      } else {
+        const data = await createReservation(newReservation);
+        setReservations([...reservations, data]);
+      }
       setNewReservation({ name: '', date: '', time: '', partySize: '' });
+      setEditingReservationId(null);
     } catch (error) {
-      console.error('Error creating reservation:', error);
+      console.error('Error creating or updating reservation:', error);
     } finally {
       setIsCreating(false);
     }
   };
 
-  const handleUpdateReservation = async (reservationId) => {
-    const updatedData = { name: 'Updated Reservation', date: '2025-01-15', time: '19:00', partySize: '4' };
-    try {
-      const updatedReservation = await updateReservation(reservationId, updatedData);
-      setReservations(reservations.map(reservation => reservation._id === reservationId ? updatedReservation : reservation));
-    } catch (error) {
-      console.error('Error updating reservation:', error);
-    }
+  const handleEditReservation = (reservation) => {
+    setNewReservation({
+      name: reservation.name,
+      date: reservation.date,
+      time: reservation.time,
+      partySize: reservation.partySize,
+    });
+    setEditingReservationId(reservation._id);
   };
 
   const handleDeleteReservation = async (reservationId) => {
@@ -69,7 +76,7 @@ const AdminScreen = ({ navigation }) => {
         <Text>Time: {reservation.time}</Text>
         <Text>Party Size: {reservation.partySize}</Text>
         <View style={styles.cardActions}>
-          <TouchableOpacity onPress={() => handleUpdateReservation(reservation._id)}>
+          <TouchableOpacity onPress={() => handleEditReservation(reservation)}>
             <Icon name="edit" size={20} color={COLORS.primary} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => handleDeleteReservation(reservation._id)}>
@@ -110,8 +117,8 @@ const AdminScreen = ({ navigation }) => {
           onChangeText={(text) => setNewReservation({ ...newReservation, partySize: text })}
           style={styles.input}
         />
-        <TouchableOpacity onPress={handleCreateReservation} disabled={isCreating} style={styles.createButton}>
-          <Text style={styles.createButtonText}>{isCreating ? 'Creating...' : 'Create Reservation'}</Text>
+        <TouchableOpacity onPress={handleCreateOrUpdateReservation} disabled={isCreating} style={styles.createButton}>
+          <Text style={styles.createButtonText}>{isCreating ? 'Saving...' : editingReservationId ? 'Update Reservation' : 'Create Reservation'}</Text>
         </TouchableOpacity>
       </View>
 

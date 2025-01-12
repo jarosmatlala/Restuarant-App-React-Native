@@ -39,6 +39,8 @@ return (
         <Stack.Screen name="ManageUsers" component={ManageUsers} />
         <Stack.Screen name="ManageReservation" component={AdminScreen} />
         <Stack.Screen name="ManageContent" component={ManageContent} /> 
+        <Stack.Screen name="CartScreen" component={CartScreen} /> 
+        <Stack.Screen name="CartReducer" component={CartReducer} /> 
 
     </Stack.Navigator>  
   
