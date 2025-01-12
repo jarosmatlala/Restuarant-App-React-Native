@@ -6,21 +6,35 @@ import COLORS from '../../consts/colors';
 const UserProfile = ({ route }) => {
   const [userProfile, setUserProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  
   const { token } = route.params;
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const profileData = await getUserProfile(token);
+        console.log('Profile Data:', profileData); // Log profile data
         setUserProfile(profileData);
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
+      } catch (err) {
+        console.log('Fetching user profile with token:', token);
+        console.error('Error fetching user profile:', err);
+        setError('Failed to load profile. Please try again later.');
+
       } finally {
         setIsLoading(false);
       }
     };
+
+  
+  if (token) {
     fetchUserProfile();
-  }, [token]);
+  } else {
+    setError('No token found.');
+    setIsLoading(false);
+  }
+}, [token]);
 
   if (isLoading) {
     return <ActivityIndicator size="large" color={COLORS.primary} />;

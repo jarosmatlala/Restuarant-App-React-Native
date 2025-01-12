@@ -17,7 +17,7 @@ const LoginScreen = ({ navigation }) => {
   
       if (response.token) {
         Alert.alert('Success', 'Login successful');
-        navigation.navigate('UserProfileScreen', { token: response.token });
+        navigation.navigate('UserProfile', { token: response.token });
       }
     } catch (error) {
       Alert.alert('Error', 'Login failed');

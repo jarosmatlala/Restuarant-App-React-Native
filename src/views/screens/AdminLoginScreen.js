@@ -14,6 +14,8 @@ const AdminLoginScreen = ({ navigation }) => {
       const userData = { email, password };
       const response = await loginUser(userData);
       if (response.token) {
+        await AsyncStorage.setItem('token', response.token);
+
         Alert.alert('Success', 'Login successful');
         navigation.navigate('AdminDashboard');
       }
