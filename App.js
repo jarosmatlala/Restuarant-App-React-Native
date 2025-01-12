@@ -1,6 +1,7 @@
 import React from 'react';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
+import { Provider } from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from './src/views/screens/HomeScreen';
 import COLORS from './src/consts/colors';
@@ -14,13 +15,18 @@ import AdminDashboard from './src/views/screens/AdminDashboard';
 import ManageUsers from './src/views/screens/ManageUsers';
 import AdminScreen from './src/views/screens/AdminScreen';
 import ManageContent from './src/views/screens/ManageContent'; 
-
+import CartScreen from './src/views/screens/CartScreen';
+import CartReducer from './src/redux/CartReducer';
+import store from './src/redux/store';  
 
 const Stack = createStackNavigator();
 
 const App = () => {
 
+
+
 return (
+  <Provider store={store}>
 <NavigationContainer>
   <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
   <Stack.Navigator screenOptions={{headerShown:false}}>
@@ -37,6 +43,7 @@ return (
     </Stack.Navigator>  
   
 </NavigationContainer>
+</Provider>
   );
 };
 

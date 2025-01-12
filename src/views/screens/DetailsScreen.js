@@ -4,9 +4,35 @@ import COLORS from '../../consts/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ImageBackground } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import CartScreen from "./CartScreen";  
+
 
 const DetailsScreen = ({ navigation, route }) => {
-  const { restaurant } = route.params; 
+  const { restaurant } = route.params || {};
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!restaurant) {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    } else {
+      setLoading(false);
+    }
+  }, [restaurant]);
+
+  if (loading) {
+    return <ActivityIndicator size="large" color={COLORS.primary} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} />;
+  }
+
+  if (!restaurant) {
+    return (
+      <View style={styles.centered}>
+        <Text>No restaurant data available.</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView
@@ -96,12 +122,16 @@ const DetailsScreen = ({ navigation, route }) => {
           </View>
         </View>
 
+        <CartScreen />
+
+
         <View style={styles.btn}>
           <Text style={{ color: COLORS.white, fontSize: 18, fontWeight: 'bold' }}>
             Book Now
           </Text>
         </View>
       </View>
+      
     </ScrollView>
   );
 };
