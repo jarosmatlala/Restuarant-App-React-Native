@@ -14,10 +14,16 @@ const LoginScreen = ({ navigation }) => {
     try {
       const userData = { email, password };
       const response = await loginUser(userData);
-  
+
       if (response.token) {
         Alert.alert('Success', 'Login successful');
-        navigation.navigate('UserProfile', { token: response.token });
+        await AsyncStorage.setItem('userToken', response.token);
+        
+        if (navigation && typeof navigation.navigate === 'function') {
+          navigation.navigate('HomeScreen');
+        } else {
+          console.error("Navigation object is not available.");
+        }
       }
     } catch (error) {
       Alert.alert('Error', 'Login failed');
@@ -25,7 +31,6 @@ const LoginScreen = ({ navigation }) => {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <SafeAreaView style={styles.container}>
