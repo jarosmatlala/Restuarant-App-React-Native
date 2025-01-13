@@ -8,8 +8,8 @@ import COLORS from './src/consts/colors';
 import DetailsScreen from './src/views/screens/DetailsScreen';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,Navigator } from 'react-native';
-// import LoginScreen from './src/views/screens/LoginScreen';
-// import RegisterScreen from './src/views/screens/RegisterScreen';
+import LoginScreen from './src/views/screens/LoginScreen';
+import RegisterScreen from './src/views/screens/RegisterScreen';
 import AdminLoginScreen from './src/views/screens/AdminLoginScreen';
 import AdminDashboard from './src/views/screens/AdminDashboard';
 import ManageUsers from './src/views/screens/ManageUsers';
@@ -18,7 +18,7 @@ import ManageContent from './src/views/screens/ManageContent';
 import CartScreen from './src/views/screens/CartScreen';
 import CartReducer from './src/redux/CartReducer';
 import store from './src/redux/store';  
-// import UserProfile from './src/views/screens/UserProfile';
+import UserProfile from './src/views/screens/UserProfile';
 
 const Stack = createStackNavigator();
 
@@ -31,8 +31,8 @@ return (
 <NavigationContainer>
   <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
   <Stack.Navigator screenOptions={{headerShown:false}}>
-        {/* <Stack.Screen name="RegisterScreen" component ={RegisterScreen} />
-        <Stack.Screen name="LoginScreen" component ={LoginScreen} /> */}
+        <Stack.Screen name="RegisterScreen" component ={RegisterScreen} />
+        <Stack.Screen name="LoginScreen" component ={LoginScreen} />
         <Stack.Screen name="HomeScreen" component ={HomeScreen} />
         <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
         <Stack.Screen name="AdminLoginScreen" component={AdminLoginScreen} />
@@ -42,7 +42,7 @@ return (
         <Stack.Screen name="ManageContent" component={ManageContent} /> 
         <Stack.Screen name="CartScreen" component={CartScreen} /> 
         <Stack.Screen name="CartReducer" component={CartReducer} /> 
-        {/* <Stack.Screen name="UserProfile" component={UserProfile} />  */}
+        <Stack.Screen name="UserProfile" component={UserProfile} /> 
     </Stack.Navigator>  
   
 </NavigationContainer>

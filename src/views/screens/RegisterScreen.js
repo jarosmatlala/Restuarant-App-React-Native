@@ -17,7 +17,7 @@ const RegisterScreen = ({ navigation }) => {
       Alert.alert('Success', 'Registration successful');
       navigation.navigate('LoginScreen');
     } catch (error) {
-      Alert.alert('Error', 'Registration failed');
+      Alert.alert('Error', error.message || 'Registration failed');
     } finally {
       setIsLoading(false);
     }
