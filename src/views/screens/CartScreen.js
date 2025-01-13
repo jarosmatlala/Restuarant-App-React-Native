@@ -80,23 +80,24 @@ const CartScreen = () => {
         </Pressable>
       ))}
 
-      {cart.map((item) => (
-        <View style={styles.cartItem} key={item.id}>
-          <Text>{item.name}</Text>
-          <Image style={styles.image} source={{ uri: item.image }} />
-          <View style={styles.quantityControl}>
-            <Pressable onPress={() => decreaseQuantity(item)}>
-              <Text style={styles.quantityButton}>-</Text>
-            </Pressable>
+{cart.map((item) => (
+  <View style={styles.cartItem} key={item._id}>
+    <Text>{item.name}</Text>
+    <Image style={styles.image} source={{ uri: item.image }} />
+    <View style={styles.quantityControl}>
+      <Pressable onPress={() => decreaseQuantity(item)}>
+        <Text style={styles.quantityButton}>-</Text>
+      </Pressable>
 
-            <Text style={styles.quantityText}>{item.quantity}</Text>
+      <Text style={styles.quantityText}>{item.quantity}</Text>
 
-            <Pressable onPress={() => increaseQuantity(item)}>
-              <Text style={styles.quantityButton}>+</Text>
-            </Pressable>
-          </View>
-        </View>
-      ))}
+      <Pressable onPress={() => increaseQuantity(item)}>
+        <Text style={styles.quantityButton}>+</Text>
+      </Pressable>
+    </View>
+  </View>
+))}
+
     </SafeAreaView>
   );
 };
