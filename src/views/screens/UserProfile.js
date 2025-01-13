@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Text, StyleSheet, View, ActivityIndicator,TouchableOpacity,  Alert } from 'react-native';
 import { getUserProfile } from '../../services/userApi';
 import COLORS from '../../consts/colors';
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
 
-const UserProfile = ({ route }) => {
+
+
+const UserProfile = ({ route,navigation }) => {
   const [userProfile, setUserProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -47,7 +50,7 @@ const handleLogout = async () => {
         text: 'Yes',
         onPress: async () => {
           await AsyncStorage.removeItem('userToken'); 
-          navigation.replace('RegisterScreen'); 
+          navigation.replace('LoginScreen'); 
         },
       },
     ],
