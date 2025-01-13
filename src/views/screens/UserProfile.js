@@ -47,7 +47,7 @@ const handleLogout = async () => {
         text: 'Yes',
         onPress: async () => {
           await AsyncStorage.removeItem('userToken'); 
-          navigation.replace('LoginScreen'); 
+          navigation.replace('RegisterScreen'); 
         },
       },
     ],
