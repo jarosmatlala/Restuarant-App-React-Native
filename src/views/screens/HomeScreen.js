@@ -141,7 +141,19 @@ const HomeScreen = ({ navigation }) => {
             <Text style={{ fontSize: 30, fontWeight: 'bold', color: COLORS.primary }}>Nokaneng</Text>
           </View>
         </View>
-        <Icon name="person-outline" size={38} color={COLORS.grey} />
+
+        <TouchableOpacity
+    onPress={() => {
+        if (userToken) {
+            navigation.navigate('UserProfile', { token: response.Token });
+        } else {
+            console.warn('User token is not available');
+        }
+    }}>
+    <Icon name="person-outline" size={38} color={COLORS.grey} />
+
+</TouchableOpacity>
+
       </View>
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={style.searchInputContainer}>
