@@ -50,7 +50,7 @@ export const createRestaurant = async (restaurantData) => {
 
 export const registerUser = async (userData) => {
   try {
-    const response = await fetch(`${API_URL}/`, {
+    const response = await fetch(`${API_URL}/api/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -94,13 +94,15 @@ export const deleteRestaurant = async (restaurantId) => {
 
 export const loginUser = async (userData) => {
   try {
-    const response = await fetch(`${API_URL}/login`, {
+    const response = await fetch('https://restuarant-app-react-native-backend.onrender.com/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userData),
     });
+
+
     const data = await handleResponse(response);
     const { token } = data;
     if (token) {
