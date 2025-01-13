@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{ useEffect, useState } from 'react';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import { Provider } from 'react-redux';
@@ -24,25 +24,61 @@ const Stack = createStackNavigator();
 
 const App = () => {
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const token = await AsyncStorage.getItem('userToken'); 
+      if (token) {
+        setIsLoggedIn(true); 
+      }
+    };
+
+    checkLoginStatus();
+  }, []);
+
+  const logout = async () => {
+    try {
+      await AsyncStorage.removeItem('userToken'); 
+      setIsLoggedIn(false);
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
 
 return (
   <Provider store={store}>
 <NavigationContainer>
   <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
-  <Stack.Navigator screenOptions={{headerShown:false}}>
+  <Stack.Navigator
+   screenOptions={{headerShown:false}}
+  initialRouteName={isLoggedIn ? "HomeScreen" : "LoginScreen"} 
+>
+
+  {isLoggedIn ? ( 
+            <>
+        <Stack.Screen name="HomeScreen" component ={HomeScreen} />
+
         <Stack.Screen name="RegisterScreen" component ={RegisterScreen} />
         <Stack.Screen name="LoginScreen" component ={LoginScreen} />
-        <Stack.Screen name="HomeScreen" component ={HomeScreen} />
         <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
         <Stack.Screen name="AdminLoginScreen" component={AdminLoginScreen} />
         <Stack.Screen name="AdminDashboard" component={AdminDashboard} />
         <Stack.Screen name="ManageUsers" component={ManageUsers} />
         <Stack.Screen name="ManageReservation" component={AdminScreen} />
-        <Stack.Screen name="ManageContent" component={ManageContent} /> 
-        <Stack.Screen name="CartScreen" component={CartScreen} /> 
-        <Stack.Screen name="CartReducer" component={CartReducer} /> 
+        <Stack.Screen name="ManageContent" component={ManageContent} />
         <Stack.Screen name="UserProfile" component={UserProfile} /> 
+        </>
+          ) : (
+            <>
+        <Stack.Screen name="CartScreen" component={CartScreen} /> 
+        <Stack.Screen name="LoginScreen" component ={LoginScreen} />
+        <Stack.Screen name="UserProfile" component={UserProfile} /> 
+
+
+        </>
+          )} 
     </Stack.Navigator>  
   
 </NavigationContainer>
