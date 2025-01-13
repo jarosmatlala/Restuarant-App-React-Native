@@ -1,28 +1,31 @@
-import React, { useCallback } from "react";
-import { StyleSheet, Text, View, Image, Pressable, SafeAreaView } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { StyleSheet, Text, View, Image, Pressable, SafeAreaView, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, decrementQuantity, incrementQuantity, removeFromCart } from '../../redux/CartReducer';  
+import { addToCart, decrementQuantity, incrementQuantity, removeFromCart } from '../../redux/CartReducer';
+import { getOfferings } from '../../services/offferingsApi';
 
 const CartScreen = () => {
   const cart = useSelector((state) => state.cart.cart);
-  const dispatch = useDispatch(); 
-  const images = [
-    {
-      id: "0",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqg_OBzcVDnKHv1d3hyVk_WlCo43pzit4CJQ&usqp=CAU",
-      name: "Ice Cream",
-    },
-    {
-      id: "1",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT85O96gPiso_j2gaS0cePTBY4mCR3pumV6tw&usqp=CAU",
-      name: "Biscuit",
-    },
-    {
-      id: "2",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSicQWeRoxxLEr1RLIp8dJtw-NQvSE4xtlhwA&usqp=CAU",
-      name: "Chocolate",
-    },
-  ];
+  const dispatch = useDispatch();  
+  const [offerings, setOfferings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchOfferings = async () => {
+      try {
+        const offeringsData = await getOfferings();
+        setOfferings(offeringsData);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching offerings:', error);
+        setError('Unable to load offerings.');
+        setLoading(false);
+      }
+    };
+
+    fetchOfferings();
+  }, []);
 
   const addItemToCart = useCallback((item) => {
     dispatch(addToCart(item));
@@ -44,19 +47,27 @@ const CartScreen = () => {
     }
   }, [dispatch]);
 
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" style={styles.loading} />;
+  }
+
+  if (error) {
+    return <Text style={styles.errorText}>{error}</Text>;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Restuarant Offerings</Text>
+      <Text style={styles.title}>Restaurant Offerings</Text>
 
-      {images.map((item) => (
-        <Pressable key={item.id} style={styles.itemContainer}>
+      {offerings.map((item) => (
+        <Pressable key={item._id} style={styles.itemContainer}>
           <View style={styles.imageContainer}>
             <Image style={styles.image} source={{ uri: item.image }} />
           </View>
           <View style={styles.itemDetails}>
             <Text style={styles.itemName}>{item.name}</Text>
 
-            {cart.some((value) => value.id === item.id) ? (
+            {cart.some((value) => value.id === item._id) ? (
               <Pressable onPress={() => removeItemFromCart(item)}>
                 <Text style={styles.button}>REMOVE FROM CART</Text>
               </Pressable>
@@ -146,6 +157,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
     paddingHorizontal: 10,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
   },
 });
 
