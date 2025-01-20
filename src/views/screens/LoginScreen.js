@@ -17,7 +17,7 @@ const LoginScreen = ({ navigation }) => {
   
       if (response.token) {
         Alert.alert('Success', 'Login successful');
-        navigation.navigate('UserProfile', { token: response.token });
+        navigation.navigate('HomeScreen', { token: response.token });
       }
     } catch (error) {
       Alert.alert('Error', 'Login failed');
@@ -26,6 +26,8 @@ const LoginScreen = ({ navigation }) => {
     }
   };
   
+
+
 
   return (
     <SafeAreaView style={styles.container}>

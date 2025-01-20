@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, StyleSheet, View, ActivityIndicator } from 'react-native';
+import { SafeAreaView, Text, StyleSheet, View, ActivityIndicator,Button } from 'react-native';
 import { getUserProfile } from '../../services/userApi';
 import COLORS from '../../consts/colors';
+import { useNavigation } from '@react-navigation/native';
 
 const UserProfile = ({ route }) => {
   const [userProfile, setUserProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const navigation = useNavigation();
   
   const { token } = route.params;
 
@@ -15,7 +16,7 @@ const UserProfile = ({ route }) => {
     const fetchUserProfile = async () => {
       try {
         const profileData = await getUserProfile(token);
-        console.log('Profile Data:', profileData); // Log profile data
+        console.log('Profile Data:', profileData); 
         setUserProfile(profileData);
       } catch (err) {
         console.log('Fetching user profile with token:', token);
@@ -40,6 +41,11 @@ const UserProfile = ({ route }) => {
     return <ActivityIndicator size="large" color={COLORS.primary} />;
   }
 
+  const handleLogout = () => {
+    navigation.navigate('LoginScreen');
+    };
+
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={styles.profileContainer}>
@@ -51,6 +57,9 @@ const UserProfile = ({ route }) => {
             <Text>Joined: {new Date(userProfile.createdAt).toLocaleDateString()}</Text>
           </View>
         )}
+      </View>
+      <View>
+        <Button title="Logout" onPress={handleLogout} />
       </View>
     </SafeAreaView>
   );

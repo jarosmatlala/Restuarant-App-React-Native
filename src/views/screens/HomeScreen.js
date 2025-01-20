@@ -7,7 +7,8 @@ import { getRestaurants } from '../../services/api';
 const { width } = Dimensions.get('screen');
 const cardWidth = width / 1.8;
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation,route }) => {
+  const { token } = route.params;
   const categories = ['All', 'Popular', 'Top Rated', 'Featured', 'Luxury'];
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
   const [activeCardIndex, setActiveCardIndex] = React.useState(0);
@@ -34,6 +35,10 @@ const HomeScreen = ({ navigation }) => {
   if (isLoading) {
     return <ActivityIndicator size="large" color={COLORS.primary} />;
   }
+
+  const handleProfilePress = () => {
+    navigation.navigate('UserProfile', { token }); 
+  };
 
   const CategoryList = ({ navigation }) => {
     return (
@@ -141,7 +146,9 @@ const HomeScreen = ({ navigation }) => {
             <Text style={{ fontSize: 30, fontWeight: 'bold', color: COLORS.primary }}>Nokaneng</Text>
           </View>
         </View>
+        <TouchableOpacity onPress={() => navigation.navigate('UserProfile')}>
         <Icon name="person-outline" size={38} color={COLORS.grey} />
+        </TouchableOpacity>
       </View>
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={style.searchInputContainer}>
