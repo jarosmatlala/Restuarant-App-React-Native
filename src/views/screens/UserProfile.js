@@ -5,12 +5,14 @@ import COLORS from '../../consts/colors';
 import { useNavigation } from '@react-navigation/native';
 
 const UserProfile = ({ route }) => {
+  console.log('Route params:', route.params);
+
   const [userProfile, setUserProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigation = useNavigation();
   
-  const { token } = route.params;
+  const token = route.params?.token;
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -45,6 +47,12 @@ const UserProfile = ({ route }) => {
     navigation.navigate('LoginScreen');
     };
 
+    const handleBack = () => {
+      navigation.navigate('HomeScreen', { token });
+    };
+
+   
+     
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
@@ -58,7 +66,9 @@ const UserProfile = ({ route }) => {
           </View>
         )}
       </View>
-      <View>
+      
+      <View style={styles.buttonContainer}>
+      <Button title="Back" onPress={handleBack} />
         <Button title="Logout" onPress={handleLogout} />
       </View>
     </SafeAreaView>
@@ -79,6 +89,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.light,
     padding: 15,
     borderRadius: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    paddingHorizontal: 20,
   },
 });
 
